@@ -1,0 +1,350 @@
+<!-- <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BitFinance - Dashboard</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+        body{
+         display: flex;
+         flex-direction: column;
+         background-color: #8fd0e4;
+         min-height: 100vh;
+        }
+        .sidebar{
+            width:100%;
+            background-color: #a9dceb;
+            padding: 15px 30px;
+            border-bottom: 2px solid #8fd0e4;
+            display: flex;
+            flex-direction: row; /*o row foi usado para alinhar os botões lado a lado*/ 
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar h1 {
+            color: #000000;
+            margin-bottom: 0;
+            font-size: 26px;
+            font-weight: bold;
+        }
+        .nav-menu{
+            display: flex;
+            gap: 10px;
+        }
+          .menu-item {
+            padding: 10px 18px;
+            border-radius: 15px;
+            cursor: pointer;
+            color: #333;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .menu-item.active, .menu-item:hover{
+            background-color: #c3e8f2;
+            color: #000;
+        }
+        .main-content{
+            flex: 1;
+            padding: 30px;
+            overflow: auto;
+        }
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .header h2{
+            font-size: 28px;
+            color: #000;
+        }
+        .cards-grid{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card{
+            background-color: #a9dceb;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+        }
+        .card p{
+            color: #444;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .card h3{
+            font-size: 24px;
+            color: #000;
+        }
+        .dashboard-grid{
+            display: grid;
+            grid-template-columns: 1.2fr 1.8fr;
+            gap: 20px;
+        }
+        .pane{
+            background-color: #a9dceb;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+        }
+        .pane h3{
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid #8fd0e4;
+            padding-bottom: 8px;
+        }
+        .form-group{
+            margin-bottom: 15px;
+        }
+        label{
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        input, select{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgb(253, 253, 252);
+            border-radius: 12px;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        button{
+            background-color: #c3e8f2;
+            color: rgb(0, 0, 0);
+            padding: 12px 15px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background 0.02s;
+        }
+        button:hover{
+            background-color: #ade3f1;
+        }
+        .container-lista{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .item-lembrete{
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 6px solid #b71c1c;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+        }
+        .item-lembrete.receita{
+            border-left-color: #1b5e20;
+        }
+        .info-lembrete h4{
+            font-size: 16px;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        .info-lembrete span{
+            font-size: 12px;
+            background-color: #c3e8f2;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #0d470d;
+        }
+        .valor-lembrete{
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>BitFinance</h1>
+        <div class="nav-menu">
+        <div class="menu-item active">Home</div>
+        <div class="menu-item">Agenda / Contas</div>
+        <div class="menu-item">Planos Futuros</div>
+        <div class="menu-item">Configurações</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h2 id="tituloPagina">Visão Geral</h2>
+            <span style="font-weight: bold; color: #333;">Painel de Controle</span>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <p>Saldo Atual</p>
+                <h3 id="cardSaldo">R$ 0,00</h3>
+            </div>
+            <div class="card">
+                <p>Receitas (Mês)</p>
+                <h3 id="cardReceitas" style="color: #1b5e20;">R$ 0,00</h3>
+            </div>
+            <div class="card">
+                <p>Despesas (Mês)</p>
+                <h3 id="cardDespesas" style="color: #b71c1c;">R$ 0,00</h3>
+            </div>
+            <div class="card">
+                <p>Lembretes Pendentes</p>
+                <h3 id="cardLembretes">0 contas</h3>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="pane">
+                <h3>Nova Transação / Lembrete</h3>
+
+                <div class="form-group">
+                    <label for="categoria">Categoria:</label>
+                    <select id="categoria">
+                        <option value="comum">Gasto/ganho Diário</option>
+                        <option value="lembrete">Lembrete de Conta (Agenda)</option>
+                        <option value="plano">Plano Futuro (Meta)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" id="descricao" placeholder="Ex: Parcelamento">
+                </div>
+                <div class="form-group">
+                    <label for="valor">Valor Total (R$):</label>
+                    <input type="number" id="valor" step="0.01" placeholder="0,00">
+                </div>
+                <div class="form-group" id="grupoParcelas">
+                    <label for="parcelas">Quantidade de Parcelas:</label>
+                    <input type="number" id="parcelas" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label for="dataVencimento">Data de Vencimento/Meta:</label>
+                    <input type="date" id="dataVencimento">
+                </div>
+                <div class="form-group">
+                    <label for="tipo">Tipo:</label>
+                    <select id="tipo">
+                        <option value="despesa">Despesa (Pagar)</option>
+                        <option value="receita">Receita (Receber)</option>
+                    </select>
+                </div>
+                <button id="btnAdicionar">Salvar no Sistema</button>
+            </div>
+            <div class="pane">
+                <h3>Minha Agenda & Planos</h3>
+                <div id="containerLembrete" class="container-lista">
+                     <p id="textoVazio" style="color: #333; font-size: 14px; font-style: italic;">Nenhum lmebrete adionado ainda.</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <script>
+        const inputCategoria = document.getElementById('categoria');
+        const inputDescricao = document.getElementById('descricao');
+        const inputValor = document.getElementById('valor');
+        const inputParcelas = document.getElementById('parcelas');
+        const inputData = document.getElementById('dataVencimento');
+        const inputTipo = document.getElementById('tipo');
+        const btnAdicionar = document.getElementById('btnAdicionar');
+
+        const cardSaldo = document.getElementById('cardSaldo');
+        const cardReceitas = document.getElementById('cardReceitas');
+        const cardDespesas = document.getElementById('cardDespesas');
+        const cardLembretes = document.getElementById('cardLembretes');
+
+        const containerLembrete = document.getElementById('containerLembrete');
+        const textoVazio = document.getElementById('textoVazio');
+
+        const menuItems = document.querySelectorAll('.menu-item');
+        const tituloPagina = document.getElementById('tituloPagina');
+
+        let totalReceitas = 0;
+        let totalDespesas = 0;
+        let quantidadeContas = 0;
+
+        menuItems.forEach((item) => {
+            item.addEventListener('click', () =>{
+
+                menuItems.forEach(i => i.classList.remove('active'));
+
+                item.classList.add('active');
+
+                tituloPagina.innerText = item.innerText;
+            });
+        });
+
+        btnAdicionar.addEventListener('click', () =>{
+            const categoriaTexto = inputCategoria.options[inputCategoria.selectedIndex].text;
+            const descricao = inputDescricao.value;
+            const valor = parseFloat(inputValor.value);
+            const parcelas = parseInt(inputParcelas.value) || 1;
+            const data = inputData.value;
+            const tipo = inputTipo.value;
+
+            if (descricao.trim() === '' || isNaN(valor) || valor <= 0 || !data){
+                alert('Por favor, preencha a descrição, valor e a data!');
+                return;
+            }
+            if(textoVazio){
+                textoVazio.style.display = 'none';
+            }
+            if(tipo === 'receita'){
+                totlaReceitas += valor;
+            } else {
+                totalDespesas += valor;
+            }
+            quantidadeContas++;
+
+            cardReceitas.innerText = `R$ ${totalReceitas.toFixed(2)}`;
+            cardDespesas.innerText = `R$ ${totalDespesas.toFixed(2)}`;
+            cardSaldo.innerText = `R$ ${(totalReceitas - totalDespesas).toFixed(2)}`;
+            cardLembretes.innerText = `${quantidadeContas} contas`;
+
+            const dataFormatada = data.split('-').reverse().join('/');
+            const novoItem = document.createElement('div');
+            novoItem.classList.add('item-lembrete');
+            if (tipo === 'receita') novoItem.classList.add('receita');
+
+            const valorParceladoText = parcelas > 1 ? `(${parcelas}x de R$ ${(valor / parcelas).toFixed(2)})` : '';
+
+            novoItem.innerHTML =`
+            <div class="info-lembrete">
+                <h4>${descricao}</h4>
+                <span>${categoriaTexto}</span>
+                <small style="display: block; margin-top: 6px; color: #444;">
+                  📅 Vence: <strong>${dataFormatada}</strong> ${valorParceladoText}
+                    </small>
+            </div>
+            <div class="valor-lembrete" style="color: ${tipo === 'receita' ? '#1b5e20' : '#b71c1c'}">
+                ${tipo === 'receita' ? '+' : '-'} R$ ${valor.toFixed(2)}
+                </div>
+             `;
+            containerLembrete.appendChild(novoItem);
+            
+            inputDescricao.value = '';
+            inputValor.value = '';
+            inputParcelas.value = '1';
+            inputData.value = '';
+        });
+    </script>
+</body>
+</html> -->
+
+!
